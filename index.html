@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luiz Costa — Infrastructure & Cloud Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #21262d;
+    --border: #30363d;
+    --accent: #FF9900;
+    --accent2: #58a6ff;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --green: #3fb950;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 2rem;
+    background: rgba(13,17,23,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.75rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  .banner-wrapper {
+    margin-top: 53px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .banner-wrapper img {
+    width: 100%;
+    display: block;
+    max-height: 340px;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .banner-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--bg));
+    pointer-events: none;
+  }
+
+  .badges-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1.5rem 2rem;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .badge-aws     { background: #FF9900; color: #000; }
+  .badge-linux   { background: #FCC624; color: #000; }
+  .badge-cloud   { background: #0078D4; color: #fff; }
+  .badge-devops  { background: #2496ED; color: #fff; }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  .section-heading {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.25rem;
+  }
+
+  .about-text p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.9;
+    margin-bottom: 0.85rem;
+  }
+  .about-text strong { color: var(--text); }
+
+  .about-bullets {
+    list-style: none;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .about-bullets li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .about-bullets li .bi { color: var(--accent); flex-shrink: 0; }
+  .about-bullets li strong { color: var(--text); }
+
+  .stack-category {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+  }
+
+  .stack-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .stack-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: #fff;
+  }
+
+  .cert-table-wrap {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .cert-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .cert-table th {
+    text-align: left;
+    padding: 0.6rem 1rem;
+    background: var(--surface2);
+    color: var(--muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    border-bottom: 1px solid var(--border);
+  }
+  .cert-table td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+    vertical-align: middle;
+  }
+  .cert-table td:first-child { color: var(--text); }
+  .cert-table tr:last-child td { border-bottom: none; }
+  .cert-table tr:hover td { background: rgba(255,255,255,0.03); }
+
+  .status-done { color: var(--green); font-size: 11px; }
+  .status-progress { color: var(--accent2); font-size: 11px; }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.25rem;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+  .project-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .project-card-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+  .project-icon { font-size: 1.4rem; }
+  .project-arrow { color: var(--muted); transition: color 0.2s; }
+  .project-card:hover .project-arrow { color: var(--accent); }
+  .project-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--accent2);
+    margin-bottom: 0.4rem;
+  }
+  .project-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.65;
+    flex: 1;
+    margin-bottom: 1rem;
+  }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .project-tag {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    background: rgba(88,166,255,0.08);
+    border: 1px solid rgba(88,166,255,0.2);
+    color: var(--accent2);
+  }
+
+  .expertise-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+  .expertise-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 0.75rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    font-size: 12px;
+    color: var(--muted);
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .expertise-item:hover { border-color: var(--accent); color: var(--text); }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .stats-grid img {
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    display: block;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+  .contact-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.65rem 1.5rem;
+    border-radius: 5px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .cb-linkedin { background: #0077B5; color: #fff; }
+  .cb-linkedin:hover { background: #0088cc; transform: translateY(-2px); }
+  .cb-email { background: #D14836; color: #fff; }
+  .cb-email:hover { background: #e5563e; transform: translateY(-2px); }
+  .cb-github { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .cb-github:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  .visitor-wrap { text-align: center; padding: 1.5rem; }
+
+  footer {
+    text-align: center;
+    padding: 1.5rem 2rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 11px;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 700px) {
+    .nav-links { display: none; }
+    .container { padding: 2rem 1.25rem; }
+    .badges-row { padding: 1rem; }
+    .expertise-grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">luizcosta2191.github.io</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#stack">Stack</a></li>
+    <li><a href="#certifications">Certs</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="banner-wrapper">
+  <img src="github_banner.png" alt="Infrastructure | Cloud | DevOps">
+  <div class="banner-overlay"></div>
+</div>
+
+<div class="badges-row">
+  <span class="badge badge-aws">☁️ AWS Cloud Practitioner</span>
+  <span class="badge badge-linux">🐧 Linux Advanced</span>
+  <span class="badge badge-cloud">☁️ Cloud Computing</span>
+  <span class="badge badge-devops">⚙️ DevOps Engineer</span>
+</div>
+
+<hr class="divider">
+
+<div class="container" id="about">
+  <div class="section-heading reveal">🧑‍🔧 About Me</div>
+  <div class="about-text reveal">
+    <p>I'm a technology professional with a solid background in <strong>supporting critical environments and modernizing technological infrastructure</strong>. My main focus is the convergence between <strong>Traditional Infrastructure</strong> and <strong>DevOps Culture</strong>, transforming manual processes into automated, scalable, and secure workflows.</p>
+    <p>With a degree in <strong>Systems Analysis and Development</strong> and an MBA in <strong>Network Design and Cloud Computing</strong>, I work at the intersection of development and operations. I believe infrastructure should be treated as software: <strong>versioned, tested, and automated</strong>.</p>
+    <ul class="about-bullets">
+      <li><span class="bi">*</span><span><strong>Automation:</strong> Experience in orchestration with Ansible and workflow automation (low-code and scripts).</span></li>
+      <li><span class="bi">*</span><span><strong>Cloud Computing:</strong> Focused on AWS ecosystems.</span></li>
+      <li><span class="bi">*</span><span><strong>Observability:</strong> Focused on proactive monitoring of high-availability and high-performance environments.</span></li>
+    </ul>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="container" id="stack">
+  <div class="section-heading reveal">🛠️ Tech Stack</div>
+  <div class="reveal">
+    <div class="stack-category">☁️ Cloud &amp; Virtualization</div>
+    <div class="stack-badges">
+      <span class="stack-badge" style="background:#232F3E;">☁️ AWS</span>
+      <span class="stack-badge" style="background:#E57000;">🖥️ Proxmox</span>
+      <span class="stack-badge" style="background:#1868F2;">📦 Vagrant</span>
+    </div>
+    <div class="stack-category">🐳 Containers &amp; Orchestration</div>
+    <div class="stack-badges">
+      <span class="stack-badge" style="background:#2496ED;">🐳 Docker</span>
+      <span class="stack-badge" style="background:#326CE5;">☸️ Kubernetes</span>
+    </div>
+    <div class="stack-category">⚙️ IaC &amp; Automation</div>
+    <div class="stack-badges">
+      <span class="stack-badge" style="background:#7B42BC;">🏗️ Terraform</span>
+      <span class="stack-badge" style="background:#EE0000;">⚙️ Ansible</span>
+    </div>
+    <div class="stack-category">🐧 Systems &amp; Scripting</div>
+    <div class="stack-badges">
+      <span class="stack-badge" style="background:#FCC624;color:#000;">🐧 Linux</span>
+      <span class="stack-badge" style="background:#4EAA25;">💻 Bash</span>
+      <span class="stack-badge" style="background:#3776AB;">🐍 Python</span>
+      <span class="stack-badge" style="background:#F05032;">🔀 Git</span>
+    </div>
+    <div class="stack-category">📊 Monitoring &amp; Observability</div>
+    <div class="stack-badges">
+      <span class="stack-badge" style="background:#F46800;">📊 Grafana</span>
+      <span class="stack-badge" style="background:#CC0000;">🔎 Zabbix</span>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="container" id="certifications">
+  <div class="section-heading reveal">🏆 Certifications</div>
+  <div class="cert-table-wrap reveal">
+    <table class="cert-table">
+      <thead>
+        <tr><th>Certification</th><th>Issuer</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>☁️ AWS Certified Cloud Practitioner</td><td>Amazon Web Services</td><td><span class="status-done">✅ Achieved</span></td></tr>
+        <tr><td>🔶 Oracle Cloud Infrastructure Foundations Associate</td><td>Oracle</td><td><span class="status-done">✅ Achieved</span></td></tr>
+        <tr><td>🎓 Cloud Fundamentals, Administration and Solution Architect</td><td>FIAP</td><td><span class="status-done">✅ Completed</span></td></tr>
+        <tr><td>🔄 DevOps &amp; Agile Culture</td><td>FIAP</td><td><span class="status-done">✅ Completed</span></td></tr>
+        <tr><td>🛠️ DevOps Training</td><td>Alura</td><td><span class="status-done">✅ Completed</span></td></tr>
+        <tr><td>🎓 MBA — Network Design &amp; Cloud Computing</td><td>In Progress</td><td><span class="status-progress">⟳ Pursuing</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="container" id="projects">
+  <div class="section-heading reveal">🚀 Featured Projects</div>
+  <div class="projects-grid reveal">
+    <a href="https://github.com/luizcosta2191" target="_blank" class="project-card">
+      <div class="project-card-header"><div class="project-icon">🔐</div><div class="project-arrow">↗</div></div>
+      <div class="project-name">VAULT</div>
+      <div class="project-desc">Python/Flask web app for secure file encryption using AES-256-GCM, containerized with Docker for seamless deployment.</div>
+      <div class="project-tags"><span class="project-tag">Python</span><span class="project-tag">Flask</span><span class="project-tag">Docker</span><span class="project-tag">AES-256-GCM</span></div>
+    </a>
+    <a href="https://github.com/luizcosta2191" target="_blank" class="project-card">
+      <div class="project-card-header"><div class="project-icon">🐳</div><div class="project-arrow">↗</div></div>
+      <div class="project-name">Multi-Service Docker Env</div>
+      <div class="project-desc">Docker Compose environment with Nginx, PHP 5.6/7.0, Redis and Memcached — fully documented for dev and staging workflows.</div>
+      <div class="project-tags"><span class="project-tag">Docker Compose</span><span class="project-tag">Nginx</span><span class="project-tag">PHP</span><span class="project-tag">Redis</span></div>
+    </a>
+    <a href="https://github.com/luizcosta2191" target="_blank" class="project-card">
+      <div class="project-card-header"><div class="project-icon">☁️</div><div class="project-arrow">↗</div></div>
+      <div class="project-name">AWS Infrastructure as Code</div>
+      <div class="project-desc">Terraform modules and Ansible playbooks for provisioning AWS infrastructure — scalable, repeatable, version-controlled.</div>
+      <div class="project-tags"><span class="project-tag">Terraform</span><span class="project-tag">Ansible</span><span class="project-tag">AWS</span><span class="project-tag">IaC</span></div>
+    </a>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="container">
+  <div class="section-heading reveal">🚀 Areas of Expertise</div>
+  <div class="expertise-grid reveal">
+    <div class="expertise-item">🔧 Infrastructure Provisioning &amp; Management</div>
+    <div class="expertise-item">🔄 CI/CD and Pipeline Automation</div>
+    <div class="expertise-item">📦 Containerization and Workload Orchestration</div>
+    <div class="expertise-item">🛡️ Security and Linux Environment Hardening</div>
+    <div class="expertise-item">📊 Monitoring, Alerting and Dashboards</div>
+    <div class="expertise-item">☁️ AWS Architecture and Services</div>
+    <div class="expertise-item">📜 Automation Scripts with Bash and Python</div>
+    <div class="expertise-item">🏗️ IaC with Terraform and Ansible</div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="container">
+  <div class="section-heading reveal">📈 GitHub Stats</div>
+  <div class="stats-grid reveal">
+    <img src="https://github-readme-stats.vercel.app/api?username=luizcosta2191&show_icons=true&theme=dark&hide_border=true&bg_color=0d1117&title_color=FF9900&icon_color=FF9900" alt="GitHub Stats">
+    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=luizcosta2191&layout=compact&theme=dark&hide_border=true&bg_color=0d1117&title_color=FF9900" alt="Top Languages">
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="container" id="contact">
+  <div class="section-heading reveal">📫 Contact</div>
+  <div style="text-align:center;" class="reveal">
+    <p style="color:var(--muted);font-size:13px;margin-bottom:1rem;">Open to new opportunities in Infrastructure, Cloud &amp; DevOps.</p>
+    <div class="contact-links">
+      <a href="https://linkedin.com/in/luizcosta2191" target="_blank" class="contact-btn cb-linkedin">💼 LinkedIn</a>
+      <a href="mailto:luizcosta2191@gmail.com" class="contact-btn cb-email">✉️ Email</a>
+      <a href="https://github.com/luizcosta2191" target="_blank" class="contact-btn cb-github">🐱 GitHub</a>
+    </div>
+  </div>
+</div>
+
+<div class="visitor-wrap">
+  <img src="https://komarev.com/ghpvc/?username=luizcosta2191&color=FF9900&style=for-the-badge" alt="Visitor Count">
+</div>
+
+<footer>
+  <a href="https://github.com/luizcosta2191" style="color:var(--accent);text-decoration:none;">luizcosta2191</a> · GitHub Pages · Infrastructure | Cloud | DevOps
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
