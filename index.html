@@ -301,18 +301,6 @@
   }
   .expertise-item:hover { border-color: var(--accent); color: var(--text); }
 
-  .stats-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-  .stats-grid img {
-    width: 100%;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    display: block;
-  }
-
   .contact-links {
     display: flex;
     flex-wrap: wrap;
@@ -356,12 +344,26 @@
   }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
+  /* ── SKELETON ── */
+  @keyframes shimmer {
+    0%   { background-position: -600px 0; }
+    100% { background-position: 600px 0; }
+  }
+  .project-card.skeleton {
+    min-height: 160px;
+    background: linear-gradient(90deg, var(--surface) 25%, var(--surface2) 50%, var(--surface) 75%);
+    background-size: 600px 100%;
+    animation: shimmer 1.4s infinite linear;
+    border-color: var(--border);
+    pointer-events: none;
+  }
+
   @media (max-width: 700px) {
     .nav-links { display: none; }
     .container { padding: 2rem 1.25rem; }
     .badges-row { padding: 1rem; }
     .expertise-grid { grid-template-columns: 1fr; }
-    .stats-grid { grid-template-columns: 1fr; }
+
   }
 </style>
 </head>
@@ -465,27 +467,19 @@
 <hr class="divider">
 
 <div class="container" id="projects">
-  <div class="section-heading reveal">🚀 Featured Projects</div>
-  <div class="projects-grid reveal">
-    <a href="https://github.com/luizcosta2191" target="_blank" class="project-card">
-      <div class="project-card-header"><div class="project-icon">🔐</div><div class="project-arrow">↗</div></div>
-      <div class="project-name">VAULT</div>
-      <div class="project-desc">Python/Flask web app for secure file encryption using AES-256-GCM, containerized with Docker for seamless deployment.</div>
-      <div class="project-tags"><span class="project-tag">Python</span><span class="project-tag">Flask</span><span class="project-tag">Docker</span><span class="project-tag">AES-256-GCM</span></div>
-    </a>
-    <a href="https://github.com/luizcosta2191" target="_blank" class="project-card">
-      <div class="project-card-header"><div class="project-icon">🐳</div><div class="project-arrow">↗</div></div>
-      <div class="project-name">Multi-Service Docker Env</div>
-      <div class="project-desc">Docker Compose environment with Nginx, PHP 5.6/7.0, Redis and Memcached — fully documented for dev and staging workflows.</div>
-      <div class="project-tags"><span class="project-tag">Docker Compose</span><span class="project-tag">Nginx</span><span class="project-tag">PHP</span><span class="project-tag">Redis</span></div>
-    </a>
-    <a href="https://github.com/luizcosta2191" target="_blank" class="project-card">
-      <div class="project-card-header"><div class="project-icon">☁️</div><div class="project-arrow">↗</div></div>
-      <div class="project-name">AWS Infrastructure as Code</div>
-      <div class="project-desc">Terraform modules and Ansible playbooks for provisioning AWS infrastructure — scalable, repeatable, version-controlled.</div>
-      <div class="project-tags"><span class="project-tag">Terraform</span><span class="project-tag">Ansible</span><span class="project-tag">AWS</span><span class="project-tag">IaC</span></div>
-    </a>
+  <div class="section-heading reveal">🚀 Projects</div>
+  <p style="color:var(--muted);font-size:12px;margin-bottom:1.5rem;" class="reveal">
+    Fetched automatically from GitHub · sorted by most recently updated
+  </p>
+  <div class="projects-grid" id="projects-grid">
+    <div class="project-card skeleton"></div>
+    <div class="project-card skeleton"></div>
+    <div class="project-card skeleton"></div>
   </div>
+  <p id="projects-error" style="display:none;color:var(--muted);font-size:12px;text-align:center;margin-top:1rem;">
+    Could not load repositories.
+    <a href="https://github.com/luizcosta2191?tab=repositories" target="_blank" style="color:var(--accent2);">View on GitHub ↗</a>
+  </p>
 </div>
 
 <hr class="divider">
@@ -506,23 +500,13 @@
 
 <hr class="divider">
 
-<div class="container">
-  <div class="section-heading reveal">📈 GitHub Stats</div>
-  <div class="stats-grid reveal">
-    <img src="https://github-readme-stats.vercel.app/api?username=luizcosta2191&show_icons=true&theme=dark&hide_border=true&bg_color=0d1117&title_color=FF9900&icon_color=FF9900" alt="GitHub Stats">
-    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=luizcosta2191&layout=compact&theme=dark&hide_border=true&bg_color=0d1117&title_color=FF9900" alt="Top Languages">
-  </div>
-</div>
-
-<hr class="divider">
-
 <div class="container" id="contact">
   <div class="section-heading reveal">📫 Contact</div>
   <div style="text-align:center;" class="reveal">
     <p style="color:var(--muted);font-size:13px;margin-bottom:1rem;">Open to new opportunities in Infrastructure, Cloud &amp; DevOps.</p>
     <div class="contact-links">
       <a href="https://linkedin.com/in/luizcosta2191" target="_blank" class="contact-btn cb-linkedin">💼 LinkedIn</a>
-      <a href="mailto:luizcosta2191@gmail.com" class="contact-btn cb-email">✉️ Email</a>
+      <a href="/cdn-cgi/l/email-protection#6d011804170e021e190c5f5c545c2d0a000c0401430e0200" class="contact-btn cb-email">✉️ Email</a>
       <a href="https://github.com/luizcosta2191" target="_blank" class="contact-btn cb-github">🐱 GitHub</a>
     </div>
   </div>
@@ -537,12 +521,106 @@
 </footer>
 
 <script>
+  // ── Scroll reveal ──
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
     });
   }, { threshold: 0.08 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-</script>
-</body>
+
+  // ── GitHub API: load repos ──
+  const GITHUB_USER = 'luizcosta2191';
+  const EXCLUDED    = [GITHUB_USER + '.github.io']; // hide the portfolio repo itself
+  const MAX_REPOS   = 6;
+
+  const langColors = {
+    Python: '#3776AB', JavaScript: '#F7DF1E', TypeScript: '#3178C6',
+    Shell: '#4EAA25', Dockerfile: '#2496ED', HCL: '#7B42BC',
+    HTML: '#E34C26', CSS: '#563D7C', Go: '#00ADD8', Rust: '#DEA584',
+    YAML: '#CB171E', Ruby: '#CC342D', Java: '#B07219', 'C#': '#178600',
+  };
+
+  function langColor(lang) {
+    return langColors[lang] || '#8b949e';
+  }
+
+  function repoIcon(repo) {
+    const name = (repo.name + ' ' + (repo.description || '')).toLowerCase();
+    if (name.includes('docker') || name.includes('container')) return '🐳';
+    if (name.includes('k8s') || name.includes('kubernetes'))   return '☸️';
+    if (name.includes('terraform') || name.includes('iac'))    return '🏗️';
+    if (name.includes('ansible'))                              return '⚙️';
+    if (name.includes('aws') || name.includes('cloud'))        return '☁️';
+    if (name.includes('vault') || name.includes('crypt') || name.includes('encrypt')) return '🔐';
+    if (name.includes('monitor') || name.includes('grafana') || name.includes('zabbix')) return '📊';
+    if (name.includes('bash') || name.includes('script') || name.includes('shell'))     return '💻';
+    if (name.includes('python'))                               return '🐍';
+    return '📁';
+  }
+
+  function timeAgo(dateStr) {
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const d = Math.floor(diff / 86400000);
+    if (d === 0) return 'today';
+    if (d === 1) return 'yesterday';
+    if (d < 30)  return d + 'd ago';
+    if (d < 365) return Math.floor(d / 30) + 'mo ago';
+    return Math.floor(d / 365) + 'y ago';
+  }
+
+  async function loadRepos() {
+    const grid  = document.getElementById('projects-grid');
+    const error = document.getElementById('projects-error');
+    try {
+      const res  = await fetch(
+        `https://api.github.com/users/${GITHUB_USER}/repos?sort=pushed&per_page=100&type=public`
+      );
+      if (!res.ok) throw new Error('GitHub API error');
+      const all  = await res.json();
+      const repos = all
+        .filter(r => !r.fork && !EXCLUDED.includes(r.name))
+        .slice(0, MAX_REPOS);
+
+      if (!repos.length) throw new Error('No repos');
+
+      grid.innerHTML = repos.map(r => {
+        const tags = [r.language, r.topics?.[0], r.topics?.[1]]
+          .filter(Boolean)
+          .slice(0, 3)
+          .map(t => `<span class="project-tag">${t}</span>`)
+          .join('');
+
+        const desc = r.description
+          ? r.description
+          : 'No description provided.';
+
+        return `
+          <a href="${r.html_url}" target="_blank" class="project-card">
+            <div class="project-card-header">
+              <div class="project-icon">${repoIcon(r)}</div>
+              <div class="project-arrow">↗</div>
+            </div>
+            <div class="project-name">${r.name}</div>
+            <div class="project-desc">${desc}</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:0.75rem;">
+              <div class="project-tags">${tags}</div>
+              <span style="font-size:10px;color:var(--muted);white-space:nowrap;margin-left:8px;">
+                ${r.language
+                  ? `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${langColor(r.language)};margin-right:4px;vertical-align:middle;"></span>`
+                  : ''}
+                ${timeAgo(r.pushed_at)}
+              </span>
+            </div>
+          </a>`;
+      }).join('');
+
+    } catch (e) {
+      grid.innerHTML = '';
+      error.style.display = 'block';
+    }
+  }
+
+  loadRepos();
+</script></body>
 </html>
