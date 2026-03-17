@@ -650,7 +650,7 @@
 
     const desc = r.description || 'No description provided.';
     const icon = r.icon || repoIcon(r.name, r.description);
-    const url  = r.url || `https://github.com/${GITHUB_USER}/${r.name}`;
+    const url  = r.html_url || r.url || `https://github.com/${GITHUB_USER}/${r.name}`;
 
     return `
       <a href="${url}" target="_blank" class="project-card">
@@ -690,7 +690,7 @@
           try {
             const r = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${repoName}`);
             const data = await r.json();
-            return { ...data, ...override, name: data.name, description: override.description || data.description };
+            return { ...data, ...override, name: data.name, html_url: data.html_url, description: override.description || data.description };
           } catch {
             // If API fails, use only what's in pinned.json
             return override;
