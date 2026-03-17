@@ -1,23 +1,44 @@
 [
   {
-    "name": "vault",
-    "description": "Python/Flask web app for secure file encryption using AES-256-GCM, containerized with Docker.",
-    "language": "Python",
-    "topics": ["flask", "docker", "security"],
-    "icon": "🔐"
+    "name": "autorent-iac",
+    "description": "Complete local dev environment for a car rental app provisioned with Vagrant + Ansible + Nginx. One command brings up the entire infra — identical for every developer.",
+    "language": "HCL",
+    "topics": ["vagrant", "ansible", "nginx"],
+    "icon": "⚙️"
   },
   {
-    "name": "docker-multiservice",
-    "description": "Docker Compose environment with Nginx, PHP 5.6/7.0, Redis and Memcached.",
+    "name": "autorent-docker",
+    "description": "Car rental app containerized with Docker + Nginx. Single command setup, ~33,000 req/s with 0% error rate after Nginx tuning.",
     "language": "Dockerfile",
-    "topics": ["docker", "nginx", "redis"],
+    "topics": ["docker", "nginx", "iac"],
     "icon": "🐳"
   },
   {
-    "name": "aws-iac",
-    "description": "Terraform modules and Ansible playbooks for provisioning AWS infrastructure.",
-    "language": "HCL",
-    "topics": ["terraform", "ansible", "aws"],
-    "icon": "☁️"
+    "name": "web-dev-workstation",
+    "description": "Ansible playbook to provision a complete PHP web development workstation on Ubuntu — from a fresh install to a fully operational environment in a single command.",
+    "language": "YAML",
+    "topics": ["ansible", "ubuntu", "automation"],
+    "icon": "🖥️"
+  },
+  {
+    "name": "docker-php-multiversion",
+    "description": "100% containerized environment running PHP 5.6 and PHP 7.0 side by side with Nginx reverse proxy, Redis and Memcached. Solves legacy + modern coexistence conflicts.",
+    "language": "PHP",
+    "topics": ["docker", "php", "nginx", "redis"],
+    "icon": "🐳"
+  },
+  {
+    "name": "ubuntu_domain_playbook",
+    "description": "Ansible playbooks (monolithic and modular) to add Ubuntu machines to an Active Directory domain — change hostname, create local users, and join the domain.",
+    "language": "Jinja",
+    "topics": ["ansible", "active-directory", "ubuntu"],
+    "icon": "🔐"
+  },
+  {
+    "name": "vault",
+    "description": "Web app for encrypting and decrypting files using AES-256-GCM. Built with Python/Flask and containerized with Docker. Auto key generation and drag & drop interface.",
+    "language": "Python",
+    "topics": ["python", "flask", "docker", "security"],
+    "icon": "🔐"
   }
 ]
